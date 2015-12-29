@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Report</title>
+
+    <!-- Bootstrap -->
+	<link href="./css/3rdparty/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+   
+	<div class="container" id="htmlGoesHere">
+	</div>   
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<!--Placed at the end so page loads faster-->
+	<script src="./js/3rdparty/jquery_2.1.4.min.js"></script>	
+	<!--has to come after jquery-->
+	<script src="./js/3rdparty/bootstrap.min.js"></script>
+  </body>
+  
+	<!--this has to go after the jquery-->
+	<script>
+		var dataFromParent;
+		
+		$(document).ready(function(){
+			//I tried calling the append function from the parent, but this page wasn't ready yet and it didn't recognize the function name.
+			//It's easier to just go back to the parent and retrieve the data once this page is ready.
+			$("#htmlGoesHere").append(window.opener.dataForChildWindow);
+		});
+
+	</script>
+  
+  
+</html>
