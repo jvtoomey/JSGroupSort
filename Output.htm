@@ -9,10 +9,16 @@
 
     <!-- Bootstrap -->
 	<link href="./css/3rdparty/bootstrap.min.css" rel="stylesheet">
+	
   </head>
   <body>
    
-	<div class="container" id="htmlGoesHere">
+	<div class="container" id="htmlGoesHere">	
+		<span id="tableHtmlGoesHere"></span>
+		<!--If you add the parameter "includeCustomNotes: true", then the where clause gets put in here.-->
+		<div id="customNotes"></div>
+		<!--If you create a custom Chart in a "customReportFunction" stored in the report file, you can create a chart that will appear here-->
+		<canvas id="customChart" width="1200" height="400"></canvas>
 	</div>   
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -24,15 +30,27 @@
   
 	<!--this has to go after the jquery-->
 	<script>
-		var dataFromParent;
 		
 		$(document).ready(function(){
+		
 			//I tried calling the append function from the parent, but this page wasn't ready yet and it didn't recognize the function name.
 			//It's easier to just go back to the parent and retrieve the data once this page is ready.
-			$("#htmlGoesHere").append(window.opener.dataForChildWindow);
+			$("#tableHtmlGoesHere").append(window.opener.dataForChildWindow);
+			
+			if (window.opener.customNotesForChildWindow) {
+				$("#customNotes").append(window.opener.customNotesForChildWindow);			
+			}
+			
+			//this is super-hacky but it's the only way to get the script to run in this child context. Otherwise, the function in the report file can't create the chart on the canvas.
+			if (window.opener.customReportFunction) {
+				var str = window.opener.customReportFunction.toString();
+				//you have to wrap it in the parentheses to get it to run immediately--otherwise you get an error that the function doesn't have a name. This is a self-executing anonymous function.
+				eval('(' + str +')();');
+			}
 		});
-
+		
 	</script>
-  
-  
+	
+	<script src="./js/3rdparty/chart.js"></script>
+ 
 </html>
