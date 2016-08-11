@@ -8,16 +8,20 @@ body
 	background-repeat: repeat;
 }
 
+/* The margin's "auto" for left and right sides is what centers the div. */
 #pageconstraint {
 	width:900px;
 	margin: 10px auto 10px auto;
 	position: relative;
-	border: 1px solid #333333; 
+	border: 1px solid #333333;
 	color: #333333;
-	font-family: 'PT Sans Reg',sans-serif;
+	font-family: sans-serif;
 	font-size: 1em;
 }
 
+/* The 3 attributes related to height are to making the div *at least* that tall, but grow if it needs to.
+   See http://www.reignwaterdesigns.com/ad/tidbits/hacks/minimum_height_in_css.shtml
+*/
 #header {
 	padding: 20px;
 	spacing: 20px
@@ -25,6 +29,7 @@ body
 	vertical-align:text-top;    
 	background-color: #1F75F1;
 	color: #FFFFFF;
+	/*height: 30px;*/
 	line-height: 50%;
 }
 
@@ -32,7 +37,7 @@ body
 	font-size: 20px;
 	font-weight: bold;
 	padding-left: 20px;
-	font-family: 'PT Sans Bold',sans-serif;	
+	font-family: sans-serif;	
 }
 
 #reportDesc {
@@ -45,19 +50,14 @@ body
 	background-color: #ECE9D8;
 }
 
-@font-face{ 
-	font-family: 'PT Sans Bold';
-	src: url('./../font/PTS75F.ttf') format('truetype');	
-   font-weight: bold;
-   font-style: normal;
-}
+/*Th styles below are for the forms.
+  The typical way to do forms is float:left and float:right, but the drawback to floats is the
+  need to clear them afterward to prevent content from floating up and appearing next to it.
+  Good article about it:
+  http://www.sitepoint.com/give-floats-the-flick-in-css-layouts/
 
-@font-face{ 
-	font-family: 'PT Sans Reg';
-	src: url('./../font/PTS55F.ttf') format('truetype');
-   font-weight: normal;
-   font-style: normal;
-}
+  I use a "block" for the fieldset to prevent other content from lining up to the right of it; I want the fieldset to have its own line.
+*/
 
 fieldset
 {
@@ -87,6 +87,9 @@ h1
 	font-size: 1em;
 }
 
+
+
+/* These are for the modal */
 #fade {
 	display: none;
 	position:absolute;
@@ -119,6 +122,11 @@ h1
 
 .forCustomSelectors {
     width: 230px;
+}
+
+#btnGetData {
+	/* Start off with this button hidden until I get everything set up, so they can't accidentally click it before I'm ready. */
+	display: none;
 }
 
 /* override the default Selectize style where it's a regular div that starts on a new line */
