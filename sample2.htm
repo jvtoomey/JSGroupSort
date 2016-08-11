@@ -1,0 +1,58 @@
+<script>
+
+window.reportParameters = {
+	reportTitle: 'A different vehicle report',
+	reportDesc: 'This report provides a summary of vehicles removed from our fleet',
+	sql : 'select col1, col2 from tbl1 inner join tbl2 on tbl1.key = tbl2.key WHERE_CLAUSE1',
+	searchCriteria: [{
+			desc: 'Date',
+			dataType: 'date',
+			fieldName: ["col1"]
+		}, {
+			desc: 'Time',
+			dataType: 'time',
+			fieldName: ["col2"]
+		}
+	],
+	includeCustomNotes: true
+}
+
+</script>
+
+<style>
+	h2 {
+		font-style: italic;
+	}
+</style>
+
+<!--The header with the report title and badge-->
+<div class="row">
+	<!--Column left-->
+	<div class="col-sm-1">
+			<img src="./img/logo.jpg" />
+	</div>
+	
+	<!--Column right-->
+	<div id='headerRow' class="col-sm-11">
+			<p><h2>Vehicle removal summary</h2></p>
+	</div>
+</div>
+
+<table class="table">
+	<thead>
+	</thead>
+		<tr class="active">
+			<th>MAKE</th><th>MODEL</th><th>CATEGORY</th><th>COLOR</th>
+		</tr>
+		
+		{{#recArray}}
+			<tr class="warning">
+				<td>{{MAKE}}</td><td>{{MODEL}}</td><td>{{CATEGORY}}</td><td>{{COLOR}}</td>
+			</tr>
+			<tr>
+				<td colspan="8">{{REMARKS}}</td>
+			</tr>
+		{{/recArray}}
+</table>
+			
+			
