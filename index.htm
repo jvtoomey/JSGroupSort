@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>HTML Reports</title>
+
+	<link href="./css/3rdparty/jquery-ui.min.css" rel="stylesheet">
+	<link href="./css/3rdparty/bootstrap.min.css" rel="stylesheet">
+	<link href="./css/3rdparty/selectize.default.css" rel="stylesheet" />
+	<link href="./css/ReportViewer.css" rel="stylesheet">
+  </head>
+   
+  <body>
+    <div id="pageconstraint">
+        <div id="header">
+			<p id='reportTitle'></p>
+			<p id='reportDesc'></p>
+        </div>
+        <div id="content">
+
+			<h3>Report/Search criteria</h3>
+			<div id='searchControls'>
+			</div>
+
+		  <button type="button" id="btnGetData" class="btn btn-success" onclick='getData()'>Run query</button> <!--this is in getData.js-->
+		</div> <!-- /content-->
+
+	<!--This is the modal for the loading icon. -->  
+	<div id="fade"></div>
+	<div id="modal">
+		<img id="loader" src="./img/loadingTeddy.gif" />
+	</div>
+	
+	<!--This is the query modal. This is all Bootstrap syntax-->
+	<div class="modal fade" id="queryDashboard">
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			 <button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h2 class="modal-title">Report</h2>
+		  </div>
+		  <div class="modal-body">
+			<p id="groupHeadersControls">
+				<label>Select group headers:</label>
+				<!-- Selectize.js turns this textbox into a multi-select one.-->
+				<input type="text" id="groupHeaders" style="width: 230px;" />
+			</p>
+			<p id="sortHeadersControls">
+				<label>Select sort columns:</label>
+				<!-- Selectize.js turns this textbox into a multi-select one.-->
+				<input type="text" id="sortColumns" style="width: 230px;" />
+			</p>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-primary" onclick='openReport()'>Open Report</button> <!--this is in openReport.js-->
+			<button type="button" class="btn btn-info" onclick='openExcelPasteable()'>Open Excel Pasteable</button> <!--this is in openExcelPasteable.js-->
+			
+		  </div>
+		</div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->	
+	
+	<!--3rd party libs.-->
+	<script src="./js/3rdparty/jquery_2.1.4.min.js"></script>	
+	<script src="./js/3rdparty/jquery-ui.min.js"></script> 	<!-- jQuery UI (I use the calendar control) -->
+	<script src="./js/3rdparty/selectize.min.js"></script>	
+	<script src="./js/3rdparty/bootstrap.min.js"></script> 	<!--has to come after jquery-->
+	<script src="./js/3rdparty/lodash.min.js"></script>	 	<!--I need this library for the grouping functionality-->
+	<script src="./js/3rdparty/mustache.min.js"></script>
+	<script src="./js/3rdparty/q.js"></script>
+	
+	<!--My libs. These have to come after the loading of jquery or they won't work. -->	
+	<script src="./js/queryDB.js"></script>		
+	<script src="./js/parseRawData.js"></script>		
+	<script src="./js/modal.js"></script>		
+	<script src="./js/setup.js"></script>		
+	<script src="./js/changeSortOrder.js"></script>
+	<script src="./js/getData.js"></script>
+	<script src="./js/openExcelPasteable.js"></script>
+	<script src="./js/openReport.js"></script>
+	<script src="./js/criteriaTypes.js"></script>
+	
+	<script>
+		//global vars. 
+		window.reportData; //this is a raw array of the data records. If they chose grouping, then this array is converted to a JS object hierarchy.
+		window.headerData; //this is an array of the fields that the query returned. I put them here so I can list them at the top as columns.
+		window.dataForChildWindow;
+		window.mustacheTemplate;
+		window.reportParameters = "";
+
+		$(document).ready(function(){
+			var primaryDeferred = Q.defer();
+			step1_GetReport(primaryDeferred)
+			.then(step2_SetupReport())
+			.fail(function(errorMsg) {
+				alert(errorMsg);
+			});
+		});	
+	</script>
+	
+</body>
+</html>
